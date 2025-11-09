@@ -1,0 +1,73 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# keywords: household/kitchen
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/fruits/protos/Pear.proto
+# A red pear (0.06 x 0.08 x 0.06 m).
+# template language: javascript
+
+PROTO Pear [
+  field SFVec3f    translation         0 0 0.05
+  field SFRotation rotation            0 0 1 0
+  field SFString   name                "pear"
+  field SFFloat    scale               1
+  field SFFloat    mass                0.15      # Defines the mass of the pear in kg.
+  field MFNode     immersionProperties []        # Is `Solid.immersionProperties`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors [ 1 0 0 ] # red color for recognition
+    children [
+      Transform {
+        scale %<= fields.scale.value >% %<= fields.scale.value >% %<= fields.scale.value >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0        # pure red pear
+              roughness 0.35
+              metalness 0.0
+            }
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  # pear shape (slightly elongated with a narrow top)
+                  0 0 0.06
+                  0.02 0.025 0.03
+                  -0.02 0.025 0.03
+                  0.03 -0.02 0.02
+                  -0.03 -0.02 0.02
+                  0 0.04 0.0
+                  0 0 0
+                ]
+              }
+              coordIndex [
+                0,1,2,-1
+                0,3,4,-1
+                0,1,3,-1
+                0,2,4,-1
+                5,0,1,-1
+                5,0,3,-1
+                5,1,2,-1
+                5,3,4,-1
+                6,1,2,-1
+                6,3,4,-1
+              ]
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "pear"
+    immersionProperties IS immersionProperties
+    boundingObject Sphere {
+      radius %<= fields.scale.value * 0.045 >%
+    }
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+  }
+}
